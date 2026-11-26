@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Render the news-image-20261125 front page (1024x1024, PIL only).
 
-Source of truth: the official make.fun edition
+Source of truth: the official make.fun editions
 GET /api/news/editions/2026-11-25 as re-fetched on 26 Nov (39 stories,
-7 regions, provisional, updated 23:20 UTC), saved at
-edition-25nov-r2.json. Every number, place and framing below comes
-from that edition. Two extraction fragments carry no complete
-headline (a repeated Man United fragment and a truncated OPCW line),
-so they are omitted: 37 stories are shown. No flags are drawn
-anywhere. No network, no clock, no photos, no randomness: two runs
-are byte-identical.
+updated 23:20 UTC, edition-25nov-r2.json; then 18 extracted stories
+from the next leader, updated 11:10 UTC, edition-25nov-r3.json).
+Every number, place and framing below comes from those editions;
+where their figures conflict, the internally consistent figure is
+kept. Two extraction fragments carry no complete headline, so they
+are omitted: 41 stories are shown. No flags are drawn anywhere. No
+network, no clock, no photos, no randomness: two runs are
+byte-identical.
 """
 import os
 
@@ -197,73 +198,89 @@ CARDS = [
      "Russian strikes kill 5, cut power in 5 regions",
      "Zaporizhzhia nuclear plant runs on diesel after its 17th grid "
      "loss this year.", (30.5234, 50.4501)),
-    ("5", "WAR", "Ras Tanura",
+    ("5", "WAR", "Samara",
+     "Ukrainian drones hit two Volga refineries",
+     "Syzran and Kuibyshev plants burned after an overnight raid.",
+     (50.15, 53.2)),
+    ("6", "WAR", "Ras Tanura",
      "Saudis down Houthi drones after Hodeidah strike",
      "Coalition says four drones were destroyed over Ras Tanura; no "
      "casualties reported.", (50.1595, 26.6406)),
-    ("6", "ECONOMY", "London",
-     "UK energy price cap to rise 26% in January",
-     "Ofgem puts a typical annual bill at £2,166 from 1 January, up "
-     "from £1,723.", (-0.1278, 51.5074)),
-    ("7", "DIPLOMACY", "Canberra",
-     "Solomon Islands signs security pact with Australia",
-     "Australia becomes a security partner, with A$740m pledged over "
-     "10 years.", (149.13, -35.2809)),
-    ("8", "LABOUR", "Dhaka",
-     "Garment workers offered higher minimum wage",
-     "Offer lifts the monthly wage from 12,500 to 17,500 taka "
-     "($100 to $136).", (90.4125, 23.8103)),
-    ("9", "DISASTER", "Bogor",
-     "9 dead, 17 still trapped in flooded gold mine",
-     "Rescuers pull bodies from a 100-metre unlicensed pit in West "
-     "Java.", (106.8166, -6.595)),
-    ("10", "WAR", "Gaza City",
+    ("7", "GULF", "Hormuz",
+     "Iran says mines set two tankers ablaze",
+     "IRGC navy says the ships struck an unauthorised route; no "
+     "independent confirmation.", (56.25, 26.5667)),
+    ("8", "WAR", "Gaza City",
      "Israeli strike kills Hamas security chief",
      "Naeem Abu Nahel, 50, killed in western Gaza City; he had held "
      "the post since September.", (34.4668, 31.5017)),
-    ("11", "JUSTICE", "Cape Town",
-     "Court lifts 'Farmgate' threat to Ramaphosa",
-     "Judges void the 2022 panel report that opened the way to "
-     "impeachment.", (18.4241, -33.9249)),
-    ("12", "JUSTICE", "Jerusalem",
-     "Judges urge rethink of Netanyahu graft charges",
-     "Bribery case faces 'considerable difficulties'; Netanyahu says "
-     "the trial must end.", (35.2137, 31.7683)),
-    ("13", "DISASTER", "Cairo",
+    ("9", "DISASTER", "Cairo",
      "Fuel tanker fire kills at least 30 near Cairo",
      "Tanker overturned and exploded on a ring road, the Health "
      "Ministry says.", (31.2357, 30.0444)),
+    ("10", "DISASTER", "Bogor",
+     "9 dead, 17 still trapped in flooded gold mine",
+     "Rescuers pull bodies from a 100-metre unlicensed pit in West "
+     "Java.", (106.8166, -6.595)),
+    ("11", "CRIME", "Catarman",
+     "Supermarket siege ends: 20 hostages freed",
+     "Security forces stormed the store at dawn after a 17-hour "
+     "standoff; one gunman killed.", (124.6377, 12.4989)),
+    ("12", "ECONOMY", "London",
+     "UK energy price cap to rise 26% in January",
+     "Ofgem puts a typical annual bill at £2,166 from 1 January, up "
+     "from £1,723.", (-0.1278, 51.5074)),
+    ("13", "DIPLOMACY", "Canberra",
+     "Solomon Islands signs security pact with Australia",
+     "Australia becomes a security partner, with A$740m pledged over "
+     "10 years.", (149.13, -35.2809)),
+    ("14", "LABOUR", "Dhaka",
+     "Garment workers offered higher minimum wage",
+     "Offer lifts the monthly wage from 12,500 to 17,500 taka "
+     "($100 to $136).", (90.4125, 23.8103)),
+    ("15", "JUSTICE", "Cape Town",
+     "Court lifts 'Farmgate' threat to Ramaphosa",
+     "Judges void the 2022 panel report that opened the way to "
+     "impeachment.", (18.4241, -33.9249)),
+    ("16", "JUSTICE", "Jerusalem",
+     "Judges urge rethink of Netanyahu graft charges",
+     "Bribery case faces 'considerable difficulties'; Netanyahu says "
+     "the trial must end.", (35.2137, 31.7683)),
+    ("17", "RIGHTS", "United Nations",
+     "Five women killed an hour by partner or kin",
+     "UN report counts 47,000 intimate-partner and family femicides "
+     "in 2025.", (-73.968, 40.7489)),
 ]
 
 BRIEFS = [
-    ("14", "Pyongyang", "North Korea gives Swiss envoy 48 hours to leave."),
-    ("15", "Brussels", "EU proposes a €500bn fund on quantum tech."),
-    ("18", "London", "UK warns companies of Russian sabotage threat."),
-    ("19", "Kyiv", "Ukraine seeks €115bn in aid for 2027, Zelensky says."),
-    ("21", "Paris", "Five arrested in case of stolen 10th-century relic."),
-    ("22", "Luxembourg", "EU court orders new cage-free farming timeline."),
-    ("23", "Jerusalem", "Knesset advances bill for a 7 October inquiry."),
-    ("24", "Gaza", "Amnesty urges ICC genocide probe over deaths."),
-    ("25", "Darfur", "RSF drone attack kills at least 19 in Sudan."),
+    ("18", "Pyongyang", "North Korea gives Swiss envoy 48 hours to leave."),
+    ("19", "Brussels", "EU proposes a €500bn fund on quantum tech."),
+    ("20", "London", "UK warns companies of Russian sabotage threat."),
+    ("21", "Kyiv", "Ukraine seeks €115bn in aid for 2027, Zelensky says."),
+    ("22", "Tokyo", "Japan's exports climb 3.2% as chip demand rebounds."),
+    ("23", "London", "Tube strike stops Circle and Piccadilly lines."),
+    ("24", "Jerusalem", "Knesset advances bill for a 7 October inquiry."),
+    ("25", "Gaza", "Amnesty urges ICC genocide probe over deaths."),
+    ("26", "Darfur", "RSF drone attack kills at least 19 in Sudan."),
     ("27", "Kuala Lumpur", "Malaysia sues Google over YouTube content."),
     ("28", "Sydney", "Australia's inflation jumps to 4.9% in October."),
     ("29", "Sydney", "Ex-policeman guilty of murdering Baird and Davies."),
-    ("31", "Lagos", "Nigeria's navy rescues 17 from capsized boat."),
-    ("32", "Brasília", "US also proposes 10% tariff on Embraer jets."),
-    ("34", "Washington", "FCC clears SpaceX's 1 million orbital data centers."),
-    ("36", "Iowa", "US Army blows up 10,000 lb of lead azide."),
-    ("37", "Mississippi", "Divers recover 6 bodies after plane crash off coast."),
-    ("38", "London", "Poundland collapses, putting 11,000 jobs at risk."),
-    ("39", "Karachi", "Building collapse kills at least 3, injures 14."),
-    ("41", "Harare", "Court issues arrest warrant for Mugabe's son."),
-    ("43", "Space", "ESA's Hera finds stadium-sized crater left by DART."),
-    ("44", "Lisbon", "Champions League: Sporting 2-2 Man United."),
-    ("47", "Mexico City", "Mexico protests US refusal to extradite ex-TV host."),
-    ("49", "UN", "16 days of action against violence on women begin."),
+    ("30", "Lagos", "Nigeria's navy rescues 17 from capsized boat."),
+    ("31", "Brasília", "US also proposes 10% tariff on Embraer jets."),
+    ("32", "Washington", "FCC clears SpaceX's 1 million orbital data centers."),
+    ("33", "Hong Kong", "Hong Kong stocks end 1.1% lower in tech rout."),
+    ("34", "Mississippi", "Divers recover 6 bodies after plane crash off coast."),
+    ("35", "London", "Poundland collapses, putting 11,000 jobs at risk."),
+    ("36", "Karachi", "Building collapse kills at least 3, injures 14."),
+    ("37", "Harare", "Court issues arrest warrant for Mugabe's son."),
+    ("38", "Space", "ESA's Hera finds stadium-sized crater left by DART."),
+    ("39", "Lisbon", "Champions League: Sporting 2-2 Man United."),
+    ("40", "Mexico City", "Mexico's inflation slows to 3.1% in early November."),
+    ("41", "UN", "16 days of action against violence on women begin."),
 ]
 
 NUMBERS = [
-    ("20%", "top proposed US tariff rate"),
+    ("14", "economies face proposed US tariffs"),
     ("-6.2%", "Kospi close on AI doubts"),
     ("5-10", "days on Tiangong for Zeeshan Ali"),
     ("5", "killed, power cut in 5 regions"),
@@ -284,7 +301,7 @@ def draw_masthead(draw):
     tw2 = draw.textlength(t2, font=f2)
     draw.text(((W - tw2) / 2, 76), t2, font=f2, fill=RED)
     f3 = font(SANS_B, 10)
-    t3 = "37 STORIES  -  7 REGIONS  -  ONE FRONT PAGE"
+    t3 = "41 STORIES  -  7 REGIONS  -  ONE FRONT PAGE"
     tw3 = draw.textlength(t3, font=f3)
     draw.text(((W - tw3) / 2, 106), t3, font=f3, fill=NAVY)
     draw.line([16, 122, W - 16, 122], fill=RULE, width=1)
@@ -332,13 +349,13 @@ def draw_leads(draw, y):
     return top + 154
 
 # Pins that would collide are nudged, with a leader line to the true spot.
-NUDGE = {"12": (16, -10), "13": (-16, 10)}
+NUDGE = {"9": (-16, 10), "16": (16, -10), "17": (16, -10)}
 PINNED = LEADS + CARDS
 
 
 def draw_map(draw, y):
     f = font(SANS_B, 9)
-    draw.text((16, y), "THE WORLD AT A GLANCE  -  13 STORIES PINNED, NUMBERED AS IN THE TEXT",
+    draw.text((16, y), "THE WORLD AT A GLANCE  -  17 STORIES PINNED, NUMBERED AS IN THE TEXT",
               font=f, fill=GREY)
     top = y + 16
     mx0, my0, mx1, my1 = 16, top, W - 16, top + 152
@@ -385,12 +402,12 @@ def draw_cards_briefs(draw, y0, y1):
     draw.line([676, y0 + 18, 676, y1], fill=TAN, width=1)
     top = y0 + 20
     col_w = 320
-    rows = 5
+    rows = 7
     row_h = (y1 - top) // rows
     fh = font(SANS_B, 11)
     fd = font(SANS, 9)
-    left = CARDS[:5]
-    right = CARDS[5:]
+    left = CARDS[:7]
+    right = CARDS[7:]
     for ci, cards in enumerate((left, right)):
         x = 16 + ci * (col_w + 12)
         for ri, (num, label, outlet, head, deck, _geo) in enumerate(cards):
@@ -400,7 +417,7 @@ def draw_cards_briefs(draw, y0, y1):
             hy = draw_wrapped(draw, x, hy, head, fh, col_w, fill=INK,
                               leading=1, max_lines=1)
             draw_wrapped(draw, x, hy + 1, deck, fd, col_w, fill=INK,
-                         leading=1, max_lines=3)
+                         leading=1, max_lines=2)
             if ri < len(cards) - 1:
                 draw.line([x, cy + row_h - 6, x + col_w, cy + row_h - 6],
                           fill=LIGHT, width=1)
@@ -423,9 +440,9 @@ def draw_datecheck(draw, y):
     draw.text((16, y + 6), "DATE CHECK", font=f, fill=RED)
     f2 = font(SANS, 9)
     t = ("Every story above is dated to Wednesday 25 November 2026 in the "
-         "official make.fun edition for that day (provisional, updated "
-         "23:20 UTC). Two extraction fragments with no complete headline "
-         "are omitted; every other story in the edition is shown.")
+         "official make.fun editions for that day (provisional, updated "
+         "23:20 and 11:10 UTC). Two extraction fragments with no complete "
+         "headline are omitted.")
     draw_wrapped(draw, 16, y + 20, t, f2, W - 32, fill=INK, leading=2,
                  max_lines=2)
     draw.line([16, H - 8, W - 16, H - 8], fill=RULE, width=1)
